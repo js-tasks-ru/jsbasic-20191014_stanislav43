@@ -5,12 +5,11 @@
  * @returns {number}
  */
 function pow(m, n) {
-  x = +prompt('Введите число x: ', 0);
+  m = +prompt('Введите число m: ', 0);
   n = +prompt('Введите степень n: ', 0);
   if (Math.round(n) != n || n < 1) {
     return alert('Значение степени должно быть натуральным числом!');
   }
-
-  return alert(`Число: ${x} в степени: ${n}, равно: ${x ** n}`);
+  return alert(`Число: ${m} в степени: ${n}, равно: ${m ** n}`);
 }
 pow();
