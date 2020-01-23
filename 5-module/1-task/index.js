@@ -6,9 +6,9 @@ function highlight(table) {
   let colAge;
 
   for (let col = 0; col < colHead.length; col++) {
-    if (colHead[col].innerHTML == 'Status') { colStatus = col; }
-    if (colHead[col].innerHTML == 'Gender') { colGender = col; }
-    if (colHead[col].innerHTML == 'Age') { colAge = col; }
+    if (colHead[col].innerText == 'Status') { colStatus = col; }
+    if (colHead[col].innerText == 'Gender') { colGender = col; }
+    if (colHead[col].innerText == 'Age') { colAge = col; }
   }
 
   let tBody = table.querySelector('tbody');
