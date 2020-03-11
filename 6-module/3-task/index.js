@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class Menu {
   template = `
@@ -26,8 +26,38 @@ class Menu {
   `;
 
   constructor(element) {
+    this.el = element;
+    this.el.innerHTML = this.template;
+    const backDrop = document.querySelector(".backdrop");
+    const menuUp = this.el.querySelectorAll(".list-group-item");
+    for (let i = 0; i < menuUp.length; i++) {
+      menuUp[i].addEventListener("pointerenter", event =>
+        this.onPointerenter(event, backDrop)
+      );
+      menuUp[i].addEventListener("pointerleave", event =>
+        this.onPointerleave(event, backDrop)
+      );
+    }
+    const dropDownMenu = this.el.querySelectorAll(".dropdown-menu");
+    for (let i = 0; i < dropDownMenu.length; i++) {
+      dropDownMenu[i].addEventListener("click", event =>
+        this.onClickMenu(event)
+      );
+    }
+  } //к конструктору
+
+  onPointerenter(event, backDrop) {
+    event.target.querySelector(".dropdown-menu").classList.toggle("show");
+    backDrop.classList.toggle("show");
   }
-}
+  onPointerleave(event, backDrop) {
+    event.target.querySelector(".dropdown-menu").classList.toggle("show");
+    backDrop.classList.toggle("show");
+  }
+  onClickMenu(event) {
+    let menuId = event.target.closest("li").dataset.id;
+  }
+} //к классу
 
 // Делает класс доступным глобально, сделано для упрощения, чтобы можно было его вызывать из другого скрипта
 window.Menu = Menu;
