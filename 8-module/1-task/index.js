@@ -19,12 +19,11 @@ class ProductList {
   } //конструктор
 
   show() {
-    //Всю логику с запросом и отрисовкой, нужно поместить в метод `show()`, этот метод должен вернуть промис от отрисовки.
     const cardsInsert = this.el.querySelector(".row.homepage-cards");
-    let cards = fetch(this.productsUrl)
+    return fetch(this.productsUrl)
       .then(response => response.json())
       .then(data => {
-        //console.log("Начинаем! Состав данных по каждому товару: ", data);
+        this.data = data;
         data.map(item => {
           let starsAllElem = "";
           let starElem = "<i class='icon-star'></i>\r\n";
@@ -80,26 +79,24 @@ class ProductList {
         }); //data.map
         //Добавление в корзину!!!
         let productToCart = [];
-        let buttonAddToCart = this.el.querySelectorAll(".product-add-to-cart"); //кнопок много!!!
-        for (let i = 0; i < buttonAddToCart.length; i++) {
-          buttonAddToCart[i].addEventListener("click", event => {
+        this.el.addEventListener("click", event => {
+          if (
+            event.target.dataset.buttonRole === "add-to-cart" &&
+            confirm("Вы уверенны, что хотите добавить этот товар в корзину?")
+          ) {
             let productId = event.target.closest(".products-list-product")
               .dataset.productId;
-            if (
-              !confirm("Вы уверенны, что хотите добавить этот товар в корзину?")
-            ) {
-            } else {
-              if (!productToCart.includes(productId)) {
-                productToCart.push(productId);
-                localStorage.setItem(
-                  this.productsStoreKey,
-                  JSON.stringify(productToCart)
-                );
-              }
-              console.log(`Товары в корзине: ${localStorage["cart-products"]}`);
+            let cart = this.data.find(item => item.id == productId);
+            if (!productToCart.find(i => i.id == productId)) {
+              productToCart.push(cart);
+              localStorage.setItem(
+                this.productsStoreKey,
+                JSON.stringify(productToCart)
+              );
             }
-          }); //event
-        }
+            //console.log(localStorage["cart-products"]);
+          }
+        });
       }); //then data
   } // show
 } //класс
